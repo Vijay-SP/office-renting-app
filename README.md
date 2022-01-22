@@ -1,6 +1,6 @@
-# ebloffices
+# rentify
 
-A new Flutter project.
+An app for office and shop renting
 
 ## Getting Started
 
