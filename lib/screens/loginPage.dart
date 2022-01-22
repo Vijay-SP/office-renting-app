@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         duration: Duration(milliseconds: 1000),
                         margin: EdgeInsets.only(top: _headingTop),
                         child: Text(
-                          "EBL Offices",
+                          "Rentify",
                           style: TextStyle(
                             color: _headingColor,
                             fontSize: 40,

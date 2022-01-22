@@ -53,7 +53,7 @@ class _AboutUsState extends State<AboutUs> with SingleTickerProviderStateMixin {
                             child: Container(
                               child: SizedBox(
                                 child: Image.asset(
-                                  "assets/images/ebl_blue_logo.png",
+                                  "assets/images/rentify.png",
                                 ),
                                 height: 125,
                               ),

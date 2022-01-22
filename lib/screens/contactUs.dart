@@ -189,7 +189,7 @@ class ContactScreenState extends State<ContactScreen> {
                     ),
                     SizedBox(width: 20),
                     Text(
-                      '1 Canada Square, Canary Wharf \n London E14 5AB, United Kingdom',
+                      'Mumbai, Maharashtra, India',
                       textAlign: TextAlign.justify,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -198,7 +198,7 @@ class ContactScreenState extends State<ContactScreen> {
               ),
               onTap: () {
                 MapsLauncher.launchCoordinates(
-                    51.5049489, -0.0195006, 'EBL Headquarters are here');
+                    19.0760, 72.8777, 'Rentify headquarter are here');
               },
             ),
             InkWell(
@@ -215,7 +215,7 @@ class ContactScreenState extends State<ContactScreen> {
                     ),
                     SizedBox(width: 20),
                     Text(
-                      '020 7712 1712',
+                      '8652486718',
                       textAlign: TextAlign.justify,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -224,7 +224,7 @@ class ContactScreenState extends State<ContactScreen> {
               ),
               onTap: () {
                 setState(() {
-                  String no = "tel:020 7712 1712";
+                  String no = "tel:8652486718";
                   launch(no);
                 });
               },
@@ -243,7 +243,7 @@ class ContactScreenState extends State<ContactScreen> {
                     ),
                     SizedBox(width: 20),
                     Text(
-                      'contact@eblproperty.com',
+                      'Rentifyplatform@gmail.com',
                       textAlign: TextAlign.justify,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -253,7 +253,7 @@ class ContactScreenState extends State<ContactScreen> {
               onTap: () {
                 setState(() {
                   String mail =
-                      "mailto:contact@eblproperty.com?subject=To EBL Offices&body=Hi EBL Offices Team,";
+                      "mailto:Rentifyplatform@gmail.com?subject=To Rentify&body=Hi Rentify Team,";
                   launch(mail);
                 });
               },

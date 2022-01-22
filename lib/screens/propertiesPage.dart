@@ -21,14 +21,14 @@ class _PropertiesPageState extends State<PropertiesPage> {
       appBar: AppBar(
         title: Text("Properties"),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: DataSearch());
-            },
-            icon: Icon(Icons.search),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       showSearch(context: context, delegate: DataSearch());
+        //     },
+        //     icon: Icon(Icons.search),
+        //   ),
+        // ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {

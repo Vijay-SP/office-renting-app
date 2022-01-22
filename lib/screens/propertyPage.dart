@@ -1,3 +1,5 @@
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rentify/authentication/firebase_auth_service.dart';
 import 'package:rentify/generic_classes/loadNetworkImage.dart';
@@ -7,9 +9,9 @@ import 'package:rentify/screens/bookAppointment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:provider/provider.dart';
-import 'package:rentify/screens/payment.dart';
+
 
 class PropertyPage extends StatefulWidget {
   final Map<String, dynamic> property;
@@ -21,6 +23,68 @@ class PropertyPage extends StatefulWidget {
 }
 
 class _PropertyPageState extends State<PropertyPage> {
+  Razorpay? razorpay;
+  TextEditingController textEditingController = new TextEditingController();
+  void initState() {
+    super.initState();
+
+    razorpay = new Razorpay();
+
+    razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+    razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
+    razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    razorpay!.clear();
+  }
+  @override
+
+
+  void handlerPaymentSuccess() {
+    print("Pament success");
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("Pament success", context);
+  }
+
+  void handlerErrorFailure() {
+    print("Pament error");
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("Pament error", context);
+  }
+
+  void handlerExternalWallet() {
+    print("External Wallet");
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("External Wallet", context);
+  }
   Widget cardHeader(String text) {
     return Column(
       children: [
@@ -66,7 +130,7 @@ class _PropertyPageState extends State<PropertyPage> {
     var property = widget.property;
     var userData = Provider.of<Map<String, dynamic>?>(context, listen: false);
     var user =
-        Provider.of<FirebaseAuthService>(context, listen: false).currentUser();
+    Provider.of<FirebaseAuthService>(context, listen: false).currentUser();
     // var rating = avgRating(property["rating"]);
     return Scaffold(
       appBar: AppBar(
@@ -173,9 +237,9 @@ class _PropertyPageState extends State<PropertyPage> {
                     columns: [
                       DataColumn(
                           label: Text(
-                        "Details",
-                        style: TextStyle(fontSize: 20),
-                      )),
+                            "Details",
+                            style: TextStyle(fontSize: 20),
+                          )),
                       DataColumn(label: Text("")),
                     ],
                   ),
@@ -214,12 +278,12 @@ class _PropertyPageState extends State<PropertyPage> {
                                       ListTile(
                                         dense: true,
                                         title:
-                                            Text(property["features"][index]),
+                                        Text(property["features"][index]),
                                       ),
                                       SizedBox(
                                         height: 0.6,
                                         child:
-                                            Container(color: Colors.blueGrey),
+                                        Container(color: Colors.blueGrey),
                                       ),
                                     ],
                                   );
@@ -276,61 +340,61 @@ class _PropertyPageState extends State<PropertyPage> {
                     columns: [
                       DataColumn(
                           label: Text(
-                        "Address",
-                        style: TextStyle(fontSize: 20),
-                      )),
+                            "Address",
+                            style: TextStyle(fontSize: 20),
+                          )),
                       DataColumn(label: Text("")),
                     ],
                   ),
                 ),
               ),
 
-              //Rating Card
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      cardHeader("Rate this property"),
-                      RatingBar.builder(
-                        initialRating: 0.0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) async {
-                          await FirebaseFirestore.instance
-                              .collection("Properties")
-                              .doc(property["id"])
-                              .update({
-                            "rating.$rating": FieldValue.increment(1),
-                          });
-                          Fluttertoast.showToast(
-                              msg: "Rating submitted. Thank you!");
-                        },
-                      ),
-                      if (avgRating(property["rating"]) != "0.00")
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.grey.shade300, width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                              "Avg. Rating: " + avgRating(property["rating"])),
-                        )
-                    ],
-                  ),
-                ),
-              ),
+              // //Rating Card
+              // Padding(
+              //   padding: const EdgeInsets.all(20.0),
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         cardHeader("Rate this property"),
+              //         RatingBar.builder(
+              //           initialRating: 0.0,
+              //           minRating: 1,
+              //           direction: Axis.horizontal,
+              //           itemCount: 5,
+              //           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              //           itemBuilder: (context, _) => Icon(
+              //             Icons.star,
+              //             color: Colors.amber,
+              //           ),
+              //           onRatingUpdate: (rating) async {
+              //             await FirebaseFirestore.instance
+              //                 .collection("Properties")
+              //                 .doc(property["id"])
+              //                 .update({
+              //               "rating.$rating": FieldValue.increment(1),
+              //             });
+              //             Fluttertoast.showToast(
+              //                 msg: "Rating submitted. Thank you!");
+              //           },
+              //         ),
+              //         if (avgRating(property["rating"]) != "0.00")
+              //           Container(
+              //             padding: EdgeInsets.all(8.0),
+              //             decoration: BoxDecoration(
+              //               border: Border.all(
+              //                   color: Colors.grey.shade300, width: 2),
+              //               borderRadius: BorderRadius.circular(10),
+              //             ),
+              //             child: Text(
+              //                 "Avg. Rating: " + avgRating(property["rating"])),
+              //           )
+              //       ],
+              //     ),
+              //   ),
+              // ),
 // Additional Details
               SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -347,7 +411,7 @@ class _PropertyPageState extends State<PropertyPage> {
                                   style: TextStyle(fontSize: 16)),
                             ),
                             DataCell(Text(property["additional_details"]
-                                    ["coworking_desks"]
+                            ["coworking_desks"]
                                 .toString())),
                           ],
                         ),
@@ -361,7 +425,7 @@ class _PropertyPageState extends State<PropertyPage> {
                             ),
                             DataCell(
                               Text(property["additional_details"]
-                                      ["meeting_rooms"]
+                              ["meeting_rooms"]
                                   .toString()),
                             ),
                           ],
@@ -393,7 +457,7 @@ class _PropertyPageState extends State<PropertyPage> {
                             ),
                             DataCell(
                               Text(property["additional_details"]
-                                      ["private_offices"]
+                              ["private_offices"]
                                   .toString()),
                             ),
                           ],
@@ -402,9 +466,9 @@ class _PropertyPageState extends State<PropertyPage> {
                     columns: [
                       DataColumn(
                           label: Text(
-                        "Add ons",
-                        style: TextStyle(fontSize: 20),
-                      )),
+                            "Add ons",
+                            style: TextStyle(fontSize: 20),
+                          )),
                       DataColumn(label: Text("")),
                     ],
                   ),
@@ -425,137 +489,109 @@ class _PropertyPageState extends State<PropertyPage> {
                   ],
                 ),
               ),
+              //
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(8.0),
+              //         child: userData!["wishlist"]
+              //             .toString()
+              //             .contains(RegExp(property["id"]))
+              //             ? ElevatedButton.icon(
+              //           icon: Icon(Icons.favorite_outline),
+              //           label: Text("Already Added"),
+              //           onPressed: () async {
+              //             await FirebaseFirestore.instance
+              //                 .collection("Users")
+              //                 .doc(user!.email)
+              //                 .update({
+              //               "wishlist":
+              //               FieldValue.arrayRemove([property["id"]]),
+              //             });
+              //             Fluttertoast.showToast(
+              //                 msg: "Removed from favourites!");
+              //           },
+              //         )
+              //             : ElevatedButton.icon(
+              //           icon: Icon(Icons.favorite),
+              //           label: Text("Add to wishlist"),
+              //           onPressed: () async {
+              //             if (user == null) {
+              //               Navigator.pushNamed(context, "/auth");
+              //             } else {
+              //               await FirebaseFirestore.instance
+              //                   .collection("Users")
+              //                   .doc(user.email)
+              //                   .update({
+              //                 "wishlist":
+              //                 FieldValue.arrayUnion([property["id"]]),
+              //               });
+              //               Fluttertoast.showToast(
+              //                   msg: "Added to favourites!",
+              //                   toastLength: Toast.LENGTH_LONG);
+              //             }
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(8.0),
+              //         child: ElevatedButton.icon(
+              //           icon: Icon(Icons.map_outlined),
+              //           label: Text("Open in map"),
+              //           onPressed: () {
+              //             var query =
+              //             MapsLauncher.createQueryUrl(property["map_url"]);
+              //             MapsLauncher.launchQuery(query);
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: PrimaryButton(
+              //       btnText: "Book an Appointment",
+              //       onPressed: () {
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (c) => BookAppointment(
+              //               propertyName: property["prop_name"],
+              //             ),
+              //           ),
+              //         );
+              //       }),
+              // ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: PrimaryButton(
+                    btnText: "Pay"+property["price"].toString(),
+                    onPressed: () {
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: userData!["wishlist"]
-                              .toString()
-                              .contains(RegExp(property["id"]))
-                          ? ElevatedButton.icon(
-                              icon: Icon(Icons.favorite_outline),
-                              label: Text("Already Added"),
-                              onPressed: () async {
-                                await FirebaseFirestore.instance
-                                    .collection("Users")
-                                    .doc(user!.email)
-                                    .update({
-                                  "wishlist":
-                                      FieldValue.arrayRemove([property["id"]]),
-                                });
-                                Fluttertoast.showToast(
-                                    msg: "Removed from favourites!");
-                              },
-                            )
-                          : ElevatedButton.icon(
-                              icon: Icon(Icons.favorite),
-                              label: Text("Add to wishlist"),
-                              onPressed: () async {
-                                if (user == null) {
-                                  Navigator.pushNamed(context, "/auth");
-                                } else {
-                                  await FirebaseFirestore.instance
-                                      .collection("Users")
-                                      .doc(user.email)
-                                      .update({
-                                    "wishlist":
-                                        FieldValue.arrayUnion([property["id"]]),
-                                  });
-                                  Fluttertoast.showToast(
-                                      msg: "Added to favourites!",
-                                      toastLength: Toast.LENGTH_LONG);
-                                }
-                              },
-                            ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.map_outlined),
-                        label: Text("Open in map"),
-                        onPressed: () {
-                          var query =
-                              MapsLauncher.createQueryUrl(property["map_url"]);
-                          MapsLauncher.launchQuery(query);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: PrimaryButton(
-                    btnText: "Book an Appointment",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (c) => BookAppointment(
-                            propertyName: property["prop_name"],
-                          ),
-                        ),
-                      );
+                      var options = {
+                        "key": "rzp_test_YdRP2OLLyFInjM",
+                        "amount": num.parse(property["price"].toString()) * 100,
+                        "name": "Rentify App",
+                        "description": "Payment for the some random product",
+                        "prefill": {"contact": "2323232323", "email": user!.email},
+                        "external": {
+                          "wallets": ["paytm"]
+                        }
+                      };
+
+                      try {
+                        razorpay!.open(options);
+                      } catch (e) {
+                        print(e.toString());
+                      }
+
                     }),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: PrimaryButton(
-                    btnText: "Pay"+property["price"],
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (c) => Payment(
-                            propertyPrice: property["price"],
-                            useremail:user!.email,
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-              if (property["floor_plans"].length > 0)
-                SizedBox(
-                  height: 200,
-                  child: Column(
-                    children: [
-                      cardHeader("Floor Plans"),
-                      Expanded(
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: property["floor_plans"].length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              child: Card(
-                                elevation: 10,
-                                shadowColor: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: LoadNetworkImage(
-                                    imgUrl: property["floor_plans"][index]),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowImage(
-                                        imgUrl: property["floor_plans"][index]),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
             ],
           ),
         ),

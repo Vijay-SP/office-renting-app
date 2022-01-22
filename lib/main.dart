@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'EBL Offices',
+        title: 'Rentify',
         theme: basicTheme(),
         home: HomePage(),
         routes: {

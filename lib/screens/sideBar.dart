@@ -70,7 +70,7 @@ class _SideDrawerState extends State<SideDrawer> {
           height: 15,
         ),
         Text(
-          "© EBL Offices - All rights reserved",
+          "© Rentify - All rights reserved",
           style: TextStyle(color: Colors.white),
         ),
         Row(
@@ -78,11 +78,11 @@ class _SideDrawerState extends State<SideDrawer> {
           children: [
             TextButton(
               onPressed: () {
-                String tc = "https://ebloffices.com/terms-and-conditions/";
+                String tc = "#";
                 launch(tc);
               },
               child: Text(
-                "Terms & Conditions UK",
+                "Terms & Conditions",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
@@ -103,9 +103,11 @@ class _SideDrawerState extends State<SideDrawer> {
               backgroundColor: Colors.white30,
               child: ClipOval(
                 child: Container(
+
                   height: 100,
                   width: 100,
                   decoration: BoxDecoration(
+
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
@@ -117,9 +119,9 @@ class _SideDrawerState extends State<SideDrawer> {
               ),
             )
           : CircleAvatar(
-              radius: 200,
-              // backgroundColor: Colors.white,
-              child: Image.asset("assets/images/splash.png"),
+        radius: 500,
+        backgroundColor: Colors.white30,
+              child: Image.asset("assets/images/rentify.png"),
             );
     }
 
@@ -180,53 +182,53 @@ class _SideDrawerState extends State<SideDrawer> {
                 Navigator.popAndPushNamed(context, "/properties");
               },
             ),
-            DrawerLabel(
-              icon: Icon(
-                Icons.favorite_outline,
-                color: Colors.white,
-              ),
-              text: "My Wishlist",
-              onTap: () {
-                if (user != null)
-                  Navigator.popAndPushNamed(context, "/myFavourites");
-                else
-                  Navigator.popAndPushNamed(context, "/auth");
-              },
-            ),
-            user != null && widget.broker
-                ? DrawerLabel(
-                    icon: Icon(
-                      Icons.people_alt_outlined,
-                      color: Colors.white,
-                    ),
-                    text: "My Leads",
-                    onTap: () {
-                      Navigator.popAndPushNamed(context, "/myLeads");
-                    },
-                  )
-                : SizedBox(),
-            user != null && widget.broker
-                ? DrawerLabel(
-                    icon: Icon(
-                      Icons.person_add_alt,
-                      color: Colors.white,
-                    ),
-                    text: "Add Lead",
-                    onTap: () {
-                      Navigator.popAndPushNamed(context, "/addLeads");
-                    },
-                  )
-                : SizedBox(),
-            DrawerLabel(
-              icon: Icon(
-                Icons.info,
-                color: Colors.white,
-              ),
-              text: "About us",
-              onTap: () {
-                Navigator.popAndPushNamed(context, "/about");
-              },
-            ),
+            // DrawerLabel(
+            //   icon: Icon(
+            //     Icons.favorite_outline,
+            //     color: Colors.white,
+            //   ),
+            //   text: "My Wishlist",
+            //   onTap: () {
+            //     if (user != null)
+            //       Navigator.popAndPushNamed(context, "/myFavourites");
+            //     else
+            //       Navigator.popAndPushNamed(context, "/auth");
+            //   },
+            // ),
+            // user != null && widget.broker
+            //     ? DrawerLabel(
+            //         icon: Icon(
+            //           Icons.people_alt_outlined,
+            //           color: Colors.white,
+            //         ),
+            //         text: "My Leads",
+            //         onTap: () {
+            //           Navigator.popAndPushNamed(context, "/myLeads");
+            //         },
+            //       )
+            //     : SizedBox(),
+            // user != null && widget.broker
+            //     ? DrawerLabel(
+            //         icon: Icon(
+            //           Icons.person_add_alt,
+            //           color: Colors.white,
+            //         ),
+            //         text: "Add Lead",
+            //         onTap: () {
+            //           Navigator.popAndPushNamed(context, "/addLeads");
+            //         },
+            //       )
+            //     : SizedBox(),
+            // DrawerLabel(
+            //   icon: Icon(
+            //     Icons.info,
+            //     color: Colors.white,
+            //   ),
+            //   text: "About us",
+            //   onTap: () {
+            //     Navigator.popAndPushNamed(context, "/about");
+            //   },
+            // ),
             DrawerLabel(
               icon: Icon(
                 Icons.mail_outline,
