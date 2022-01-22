@@ -9,6 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:rentify/screens/payment.dart';
 
 class PropertyPage extends StatefulWidget {
   final Map<String, dynamic> property;
@@ -44,8 +45,16 @@ class _PropertyPageState extends State<PropertyPage> {
   }
 
   String avgRating(Map<String, dynamic> ratings) {
-    var numerator = 1 * ratings["1"]["0"] + 2 * ratings["2"]["0"] + 3 * ratings["3"]["0"] + 4 * ratings["4"]["0"] + 5 * ratings["5"]["0"];
-    var denominator = ratings["1"]["0"] + ratings["2"]["0"] + ratings["3"]["0"] + ratings["4"]["0"] + ratings["5"]["0"];
+    var numerator = 1 * ratings["1"]["0"] +
+        2 * ratings["2"]["0"] +
+        3 * ratings["3"]["0"] +
+        4 * ratings["4"]["0"] +
+        5 * ratings["5"]["0"];
+    var denominator = ratings["1"]["0"] +
+        ratings["2"]["0"] +
+        ratings["3"]["0"] +
+        ratings["4"]["0"] +
+        ratings["5"]["0"];
     if (denominator != 0)
       return (numerator / denominator).toStringAsFixed(2);
     else
@@ -56,7 +65,8 @@ class _PropertyPageState extends State<PropertyPage> {
   Widget build(BuildContext context) {
     var property = widget.property;
     var userData = Provider.of<Map<String, dynamic>?>(context, listen: false);
-    var user = Provider.of<FirebaseAuthService>(context, listen: false).currentUser();
+    var user =
+        Provider.of<FirebaseAuthService>(context, listen: false).currentUser();
     // var rating = avgRating(property["rating"]);
     return Scaffold(
       appBar: AppBar(
@@ -81,14 +91,17 @@ class _PropertyPageState extends State<PropertyPage> {
                       child: Card(
                         elevation: 10,
                         shadowColor: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        child: LoadNetworkImage(imgUrl: property["img_links"][index]),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: LoadNetworkImage(
+                            imgUrl: property["img_links"][index]),
                       ),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ShowImage(imgUrl: property["img_links"][index]),
+                            builder: (context) =>
+                                ShowImage(imgUrl: property["img_links"][index]),
                           ),
                         );
                       },
@@ -187,7 +200,8 @@ class _PropertyPageState extends State<PropertyPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300, width: 2),
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 2),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Scrollbar(
@@ -199,11 +213,13 @@ class _PropertyPageState extends State<PropertyPage> {
                                     children: [
                                       ListTile(
                                         dense: true,
-                                        title: Text(property["features"][index]),
+                                        title:
+                                            Text(property["features"][index]),
                                       ),
                                       SizedBox(
                                         height: 0.6,
-                                        child: Container(color: Colors.blueGrey),
+                                        child:
+                                            Container(color: Colors.blueGrey),
                                       ),
                                     ],
                                   );
@@ -290,20 +306,26 @@ class _PropertyPageState extends State<PropertyPage> {
                           color: Colors.amber,
                         ),
                         onRatingUpdate: (rating) async {
-                          await FirebaseFirestore.instance.collection("Properties").doc(property["id"]).update({
+                          await FirebaseFirestore.instance
+                              .collection("Properties")
+                              .doc(property["id"])
+                              .update({
                             "rating.$rating": FieldValue.increment(1),
                           });
-                          Fluttertoast.showToast(msg: "Rating submitted. Thank you!");
+                          Fluttertoast.showToast(
+                              msg: "Rating submitted. Thank you!");
                         },
                       ),
                       if (avgRating(property["rating"]) != "0.00")
                         Container(
                           padding: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300, width: 2),
+                            border: Border.all(
+                                color: Colors.grey.shade300, width: 2),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Text("Avg. Rating: " + avgRating(property["rating"])),
+                          child: Text(
+                              "Avg. Rating: " + avgRating(property["rating"])),
                         )
                     ],
                   ),
@@ -316,23 +338,31 @@ class _PropertyPageState extends State<PropertyPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: DataTable(
                     rows: [
-                      if (property["additional_details"]["coworking_desks"] != null)
+                      if (property["additional_details"]["coworking_desks"] !=
+                          null)
                         DataRow(
                           cells: [
                             DataCell(
-                              Text("Coworking Desks", style: TextStyle(fontSize: 16)),
+                              Text("Coworking Desks",
+                                  style: TextStyle(fontSize: 16)),
                             ),
-                            DataCell(Text(property["additional_details"]["coworking_desks"].toString())),
+                            DataCell(Text(property["additional_details"]
+                                    ["coworking_desks"]
+                                .toString())),
                           ],
                         ),
-                      if (property["additional_details"]["meeting_rooms"] != null)
+                      if (property["additional_details"]["meeting_rooms"] !=
+                          null)
                         DataRow(
                           cells: [
                             DataCell(
-                              Text("Meeting Rooms", style: TextStyle(fontSize: 16)),
+                              Text("Meeting Rooms",
+                                  style: TextStyle(fontSize: 16)),
                             ),
                             DataCell(
-                              Text(property["additional_details"]["meeting_rooms"].toString()),
+                              Text(property["additional_details"]
+                                      ["meeting_rooms"]
+                                  .toString()),
                             ),
                           ],
                         ),
@@ -346,11 +376,13 @@ class _PropertyPageState extends State<PropertyPage> {
                               ),
                             ),
                             DataCell(
-                              Text(property["additional_details"]["offices"].toString()),
+                              Text(property["additional_details"]["offices"]
+                                  .toString()),
                             ),
                           ],
                         ),
-                      if (property["additional_details"]["private_offices"] != null)
+                      if (property["additional_details"]["private_offices"] !=
+                          null)
                         DataRow(
                           cells: [
                             DataCell(
@@ -360,7 +392,9 @@ class _PropertyPageState extends State<PropertyPage> {
                               ),
                             ),
                             DataCell(
-                              Text(property["additional_details"]["private_offices"].toString()),
+                              Text(property["additional_details"]
+                                      ["private_offices"]
+                                  .toString()),
                             ),
                           ],
                         ),
@@ -398,15 +432,22 @@ class _PropertyPageState extends State<PropertyPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: userData!["wishlist"].toString().contains(RegExp(property["id"]))
+                      child: userData!["wishlist"]
+                              .toString()
+                              .contains(RegExp(property["id"]))
                           ? ElevatedButton.icon(
                               icon: Icon(Icons.favorite_outline),
                               label: Text("Already Added"),
                               onPressed: () async {
-                                await FirebaseFirestore.instance.collection("Users").doc(user!.email).update({
-                                  "wishlist": FieldValue.arrayRemove([property["id"]]),
+                                await FirebaseFirestore.instance
+                                    .collection("Users")
+                                    .doc(user!.email)
+                                    .update({
+                                  "wishlist":
+                                      FieldValue.arrayRemove([property["id"]]),
                                 });
-                                Fluttertoast.showToast(msg: "Removed from favourites!");
+                                Fluttertoast.showToast(
+                                    msg: "Removed from favourites!");
                               },
                             )
                           : ElevatedButton.icon(
@@ -416,10 +457,16 @@ class _PropertyPageState extends State<PropertyPage> {
                                 if (user == null) {
                                   Navigator.pushNamed(context, "/auth");
                                 } else {
-                                  await FirebaseFirestore.instance.collection("Users").doc(user.email).update({
-                                    "wishlist": FieldValue.arrayUnion([property["id"]]),
+                                  await FirebaseFirestore.instance
+                                      .collection("Users")
+                                      .doc(user.email)
+                                      .update({
+                                    "wishlist":
+                                        FieldValue.arrayUnion([property["id"]]),
                                   });
-                                  Fluttertoast.showToast(msg: "Added to favourites!", toastLength: Toast.LENGTH_LONG);
+                                  Fluttertoast.showToast(
+                                      msg: "Added to favourites!",
+                                      toastLength: Toast.LENGTH_LONG);
                                 }
                               },
                             ),
@@ -432,7 +479,8 @@ class _PropertyPageState extends State<PropertyPage> {
                         icon: Icon(Icons.map_outlined),
                         label: Text("Open in map"),
                         onPressed: () {
-                          var query = MapsLauncher.createQueryUrl(property["map_url"]);
+                          var query =
+                              MapsLauncher.createQueryUrl(property["map_url"]);
                           MapsLauncher.launchQuery(query);
                         },
                       ),
@@ -455,6 +503,22 @@ class _PropertyPageState extends State<PropertyPage> {
                       );
                     }),
               ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: PrimaryButton(
+                    btnText: "Pay"+property["price"],
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (c) => Payment(
+                            propertyPrice: property["price"],
+                            useremail:user!.email,
+                          ),
+                        ),
+                      );
+                    }),
+              ),
               if (property["floor_plans"].length > 0)
                 SizedBox(
                   height: 200,
@@ -471,14 +535,17 @@ class _PropertyPageState extends State<PropertyPage> {
                               child: Card(
                                 elevation: 10,
                                 shadowColor: Theme.of(context).primaryColor,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                child: LoadNetworkImage(imgUrl: property["floor_plans"][index]),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: LoadNetworkImage(
+                                    imgUrl: property["floor_plans"][index]),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ShowImage(imgUrl: property["floor_plans"][index]),
+                                    builder: (context) => ShowImage(
+                                        imgUrl: property["floor_plans"][index]),
                                   ),
                                 );
                               },
