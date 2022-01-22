@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Payment extends StatefulWidget {
   @override
@@ -53,24 +53,51 @@ class _PaymentState extends State<Payment> {
 
   void handlerPaymentSuccess() {
     print("Pament success");
-    Toast.show("Pament success", context);
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+         backgroundColor: Colors.red,
+                              textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("Pament success", context);
   }
 
   void handlerErrorFailure() {
     print("Pament error");
-    Toast.show("Pament error", context);
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+         backgroundColor: Colors.red,
+                              textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("Pament error", context);
   }
 
   void handlerExternalWallet() {
     print("External Wallet");
-    Toast.show("External Wallet", context);
+    Fluttertoast.showToast(
+        msg: context.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+         backgroundColor: Colors.red,
+                              textColor: Colors.white,
+        fontSize: 16.0
+    );
+    // Toast.show("External Wallet", context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Razor Pay Tutorial"),
+        title: Text("Rentify"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -86,7 +113,7 @@ class _PaymentState extends State<Payment> {
             RaisedButton(
               color: Colors.blue,
               child: Text(
-                "Donate Now",
+                "Pay",
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
