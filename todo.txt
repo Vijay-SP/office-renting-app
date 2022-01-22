@@ -1,0 +1,10 @@
+
+0. Maps link do not work in Property page
+1. Implement apple login
+
+2. Audit :
+    Remove print statements
+
+3. Ask for stuff
+    Social media links for Agents
+    Chat bot payable/non-payable
