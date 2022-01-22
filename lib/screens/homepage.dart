@@ -6,7 +6,6 @@ import 'package:rentify/screens/searchedProperties.dart';
 import 'package:rentify/screens/sideBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -330,23 +329,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          dynamic conversationObject = {
-          'appId': '42a59148c15354a07d09b5952ad5ce79',
-          'isSingleConversation' : false
-          };
-
-          KommunicateFlutterPlugin.buildConversation(conversationObject)
-              .then((result) {
-          print("Conversation builder success: " + result.toString());  //result.toString() will be the clientChannelKey
-          }).catchError((error) {
-          print("Conversation builder error occurred : " + error.toString());
-          });
-        },
-        child: const Icon(Icons.chat),
-        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
