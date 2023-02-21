@@ -1,4 +1,4 @@
-# rentify
+# rentoff
 
 An app for office and shop renting
 
